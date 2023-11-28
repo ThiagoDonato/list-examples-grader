@@ -28,7 +28,10 @@ fi
 java -cp $CPATH org.junit.runner.JUnitCore grading-area/TestListExamples > Junit-output.txt
 JUNIT=$(grep "Tests run" Junit-output.txt | grep -o '[0-9]\+' | awk 'NR==1')
 JUNIT2=$(grep "Tests run" Junit-output.txt | grep -o '[0-9]\+' | awk 'NR==2')
-echo $JUNIT/$JUNIT2
+# shellcheck disable=SC2046
+# shellcheck disable=SC1072
+# shellcheck disable=SC2005
+echo "$(($JUNIT*100/$JUNIT2))%"
 #TESTT=$( $JUNIT | grep -o '[0-9]\+')
 
 
