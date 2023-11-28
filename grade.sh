@@ -1,4 +1,4 @@
-CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
+CPATH='.:../lib/hamcrest-core-1.3.jar:../lib/junit-4.13.2.jar'
 
 rm -rf student-submission
 rm -rf grading-area
@@ -17,7 +17,9 @@ then
 fi
   cp -r "$PATHJ" TestListExamples.java grading-area
 
-javac -cp $CPATH grading-area/ListExamples.java grading-area/TestListExamples.java
+# shellcheck disable=SC2164
+cd grading-area
+javac -cp $CPATH ListExamples.java TestListExamples.java
 
 if [ $? -ne 00 ]
 then
@@ -25,13 +27,20 @@ then
   exit 1
 fi
 
-java -cp $CPATH org.junit.runner.JUnitCore grading-area/TestListExamples > Junit-output.txt
+java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > Junit-output.txt
 JUNIT=$(grep "Tests run" Junit-output.txt | grep -o '[0-9]\+' | awk 'NR==1')
 JUNIT2=$(grep "Tests run" Junit-output.txt | grep -o '[0-9]\+' | awk 'NR==2')
+if [ -z $JUNIT  ]
+then
+  echo 100%
+else
+  echo "$((($JUNIT2-$JUNIT)*100/$JUNIT2))%"
+fi
 # shellcheck disable=SC2046
 # shellcheck disable=SC1072
 # shellcheck disable=SC2005
-echo "$(($JUNIT*100/$JUNIT2))%"
+cat Junit-output.txt
+
 #TESTT=$( $JUNIT | grep -o '[0-9]\+')
 
 
