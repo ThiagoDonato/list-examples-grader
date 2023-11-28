@@ -39,7 +39,7 @@ fi
 # shellcheck disable=SC2046
 # shellcheck disable=SC1072
 # shellcheck disable=SC2005
-cat Junit-output.txt
+#cat Junit-output.txt
 
 #TESTT=$( $JUNIT | grep -o '[0-9]\+')
 
